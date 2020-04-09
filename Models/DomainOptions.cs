@@ -33,11 +33,11 @@ namespace achieve_edge.Models
 				throw new AccessViolationException("Domains already defined");
 			foreach (Domain domain in domainModels)
 			{
-				domains.Add(domain.Key, domain);
+				domains.Add(domain.DomainName, domain);
 			}
 		}
 
-		public static bool keyExist(string domainName, string key)
+		public static bool keyExist(string key, string domainName)
 		{
 			Domain val = null;
 			domains.TryGetValue(domainName, out val);

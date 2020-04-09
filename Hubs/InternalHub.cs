@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using achieve_edge;
+using achieve_edge.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace achieve_edge.Hubs
 {
@@ -16,7 +18,8 @@ namespace achieve_edge.Hubs
 
 		public async Task Register(string key, string domain)
 		{
-			await Clients.Caller.SendAsync("Register", Auth.RegisterListener(key, domain, Clients.Caller.ToString()).ToString());
+			string caller = Context.ConnectionId;
+			await Clients.Caller.SendAsync("RegisterResponse", Auth.RegisterListener(key, domain, caller));
 		}
 	}
 }

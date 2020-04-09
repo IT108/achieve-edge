@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using achieve_edge.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace achieve_edge
 {
 	public static class Auth
 	{
 		private static Dictionary<string, string> listeners = new Dictionary<string, string>();
-		public static bool RegisterListener(string key, string domain, string listener)
+		public static EdgeResponse RegisterListener(string key, string domain, string listener)
 		{
+			EdgeResponse response = new EdgeResponse();
 			if (DomainOptions.keyExist(key, domain))
 			{
 				listeners[domain] = listener;
-				return true;
+				response.status = StatusCodes.Status200OK;
+				response.message = "Succesfully registered";
 			}
-			return false;
+			else
+			{
+				response.status = StatusCodes.Status403Forbidden;
+				response.message = "Invalid edge key";
+			}
+			return response;
 		}
 
 		public static bool isRegistered(string listener, string domain)
