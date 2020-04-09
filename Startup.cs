@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http.Connections;
 
 namespace achieve_edge
 {
@@ -93,7 +94,11 @@ namespace achieve_edge
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
-				endpoints.MapHub<InternalHub>("/internal");
+				endpoints.MapHub<InternalHub>("/internal", options =>
+				{
+					options.Transports =
+						HttpTransportType.WebSockets;
+				});
 			});
 		}
 	}
