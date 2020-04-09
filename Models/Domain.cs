@@ -9,15 +9,20 @@ namespace achieve_edge.Models
 {
 	public class Domain
 	{
-		public Domain(string domainName, string key)
+		public Domain(string domainName, string displayName, string key)
 		{
 			DomainName = domainName;
 			Key = key;
+			DisplayName = displayName;
 		}
 
 		[Required]
 		[JsonProperty("domain")]
 		public string DomainName { get; set; }
+
+		[Required]
+		[JsonProperty("display_name")]
+		public string DisplayName { get; set; }
 
 		[Required]
 		[JsonIgnore]

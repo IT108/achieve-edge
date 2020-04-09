@@ -12,7 +12,7 @@ COPY . /src/achieve-edge/
 #COPY . achieve-edge
 WORKDIR "/src/achieve-edge"
 RUN dotnet restore "achieve-edge.csproj"
-RUN ls
+
 RUN dotnet build "achieve-edge.csproj" -c Release -o /app/build
 
 FROM build AS publish
