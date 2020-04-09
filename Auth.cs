@@ -30,7 +30,8 @@ namespace achieve_edge
 		public static bool isRegistered(string listener, string domain)
 		{
 			string val = null;
-			listeners.TryGetValue(domain, out val);
+			if (listeners.TryGetValue(domain, out val))
+				return false;
 			return val == listener;
 		}
 
