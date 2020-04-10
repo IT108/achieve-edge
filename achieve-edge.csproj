@@ -19,11 +19,5 @@
 		<PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<None Update="app.yaml">
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</None>
-	</ItemGroup>
-
 
 </Project>
