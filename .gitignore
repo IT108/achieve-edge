@@ -4,3 +4,5 @@ obj
 appsettings.Development.json
 
 achieve-edge.csproj.user
+
+app.yaml
