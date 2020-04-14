@@ -26,6 +26,7 @@ namespace achieve_edge.Models
 
 		[Required]
 		[JsonIgnore]
+		[JsonProperty("key")]
 		public string Key { get; set; }
 	}
 }

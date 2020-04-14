@@ -18,6 +18,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http.Connections;
+using achieve_edge.Common;
 
 namespace achieve_edge
 {
@@ -33,48 +34,10 @@ namespace achieve_edge
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			DefineDomains();
+			ApiFunctions.DefineDomains(Configuration);
 			services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
 			services.AddControllers();
 			services.AddSignalR();
-		}
-
-		public void DefineDomains()
-		{
-			List<Domain> domains = new List<Domain>();
-
-			WebRequest request = WebRequest.Create($"{Configuration["API_ADDRESS"]}domain/keys?api_key={Configuration["EDGE_API_TOKEN"]}");
-			request.Method = "GET";
-
-
-			try
-			{
-				WebResponse response;
-				response = request.GetResponse();
-
-				Stream dataStream;
-
-				using (dataStream = response.GetResponseStream())
-				{
-
-					StreamReader reader = new StreamReader(dataStream);
-
-					string responseFromServer = reader.ReadToEnd();
-
-					Console.WriteLine(responseFromServer);
-					domains = JsonConvert.DeserializeObject<List<Domain>>(responseFromServer);
-				}
-
-				response.Close();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Api is inaccessible. " + ex.Message);
-				Environment.Exit(1);
-			}
-
-
-			DomainOptions.DefineDomains(domains, Configuration);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
