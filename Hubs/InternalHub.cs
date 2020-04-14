@@ -21,5 +21,11 @@ namespace achieve_edge.Hubs
 			string caller = Context.ConnectionId;
 			await Clients.Caller.SendAsync("RegisterResponse", Auth.RegisterListener(key, domain, caller));
 		}
-	}
+
+		public override async Task OnDisconnectedAsync(Exception exception)
+		{
+			Auth.removeListenerByConn(Context.ConnectionId);
+			await base.OnDisconnectedAsync(exception);
+		}
+    }
 }

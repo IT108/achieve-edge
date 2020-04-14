@@ -54,6 +54,13 @@ namespace achieve_edge
 				_listeners.Remove(val.Id);
 		}
 
+		public static void removeListenerByConn(string connectionId)
+		{
+			Listener val = _listeners.GetByConn(connectionId);
+			if (val != null)
+				_listeners.Remove(val.Id);
+		}
+
 		private static void updateListener(string domain, string listener_id)
 		{
 			Listener listener = new Listener() { ClientId = listener_id, Domain = domain };

@@ -26,6 +26,9 @@ namespace achieve_edge.Services
 
 		public Listener GetByDomain(string name) => _listeners.Find<Listener>(listener => listener.Domain == name).FirstOrDefault();
 
+		public Listener GetByConn(string conn) => _listeners.Find<Listener>(listener => listener.ClientId == conn).FirstOrDefault();
+
+
 		public Listener Create(Listener listener)
 		{
 			_listeners.InsertOne(listener);
