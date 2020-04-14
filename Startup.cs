@@ -19,6 +19,8 @@ using System.IO;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http.Connections;
 using achieve_edge.Common;
+using achieve_edge.Services;
+using Microsoft.Extensions.Options;
 
 namespace achieve_edge
 {
@@ -34,6 +36,18 @@ namespace achieve_edge
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			SetupDB();
+
+			services.Configure<EdgeDBSettings>(
+				Configuration.GetSection(nameof(EdgeDBSettings)));
+
+			services.AddSingleton<IEdgeDBSettings>(sp =>
+				sp.GetRequiredService<IOptions<EdgeDBSettings>>().Value);
+
+			services.AddSingleton<ListenerService>();
+
+			Auth.Init(services.BuildServiceProvider().GetService<ListenerService>());
+
 			ApiFunctions.DefineDomains(Configuration);
 			services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
 			services.AddControllers();
@@ -63,6 +77,10 @@ namespace achieve_edge
 						HttpTransportType.WebSockets;
 				});
 			});
+		}
+		private void SetupDB()
+		{
+			Configuration["EdgeDBSettings:ConnectionString"] = Configuration["DB_CONN_STRING"];
 		}
 	}
 }

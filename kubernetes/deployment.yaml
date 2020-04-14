@@ -32,6 +32,11 @@ spec:
                 configMapKeyRef:
                   key: API_ADDRESS
                   name: achieve-edge-config-npkr
+            - name: DB_CONN_STRING
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_CONN_STRING
+                  name: achieve-edge-config-npkr
           image: gcr.io/achieve-master/github.com/paramonod/achieve-edge
           imagePullPolicy: IfNotPresent
           name: achieve-edge-1

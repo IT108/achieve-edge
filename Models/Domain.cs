@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,12 +18,16 @@ namespace achieve_edge.Models
 			DisplayName = displayName;
 		}
 
+
+		public string Id { get; set; }
+
 		[Required]
 		[JsonProperty("domain")]
 		public string DomainName { get; set; }
 
 		[Required]
 		[JsonProperty("display_name")]
+
 		public string DisplayName { get; set; }
 
 		[Required]
