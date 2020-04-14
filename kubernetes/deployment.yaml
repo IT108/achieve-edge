@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: achieve-edge
+  name: achieve-edge
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: achieve-edge
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: achieve-edge
+    spec:
+      containers:
+        - env:
+            - name: EDGE_API_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  key: EDGE_API_TOKEN
+                  name: achieve-edge-config-npkr
+            - name: API_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  key: API_ADDRESS
+                  name: achieve-edge-config-npkr
+          image: gcr.io/achieve-master/github.com/paramonod/achieve-edge
+          imagePullPolicy: IfNotPresent
+          name: achieve-edge-1
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: achieve-edge
+  name: achieve-edge-hpa-ib3e
+  namespace: default
+spec:
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: achieve-edge
