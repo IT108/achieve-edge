@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using achieve_edge.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using achieve_edge.Hubs;
+using achieve_lib.AD;
 
 namespace achieve_edge.Controllers
 {
@@ -19,7 +21,16 @@ namespace achieve_edge.Controllers
 		{
 			if (api_key != DomainOptions.EdgeAPIToken)
 				return StatusCode(StatusCodes.Status401Unauthorized, "Wrong api key");
-			return Ok(Models.DomainOptions.Domains);
+			return Ok(DomainOptions.Domains);
+		}
+
+		[HttpGet]
+		[Route("[controller]/auth")]
+		public IActionResult Auth([Required] [FromQuery] ADAuthRequest request)
+		{
+			if (request.ApiKey != DomainOptions.EdgeAPIToken)
+				return StatusCode(StatusCodes.Status401Unauthorized, "Wrong api key");
+			return Ok(DomainOptions.Domains);
 		}
 	}
 }
