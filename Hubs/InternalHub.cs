@@ -27,6 +27,13 @@ namespace achieve_edge.Hubs
 
 		public async Task GetUser(ADAuthRequest req)
 		{
+			if (req.ApiKey != DomainOptions.EdgeAPIToken)
+			{
+				req.IsSuccess = false;
+				req.Error = "API key not valid";
+				await Clients.Caller.SendAsync("UserInfo", req);
+			}
+
 			req.Caller = Context.ConnectionId;
 			Listener client = _listeners.GetByDomain(req.Domain);
 			await Clients.Client(client.ClientId).SendAsync("GetUserInfo", req);
