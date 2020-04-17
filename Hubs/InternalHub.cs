@@ -32,15 +32,28 @@ namespace achieve_edge.Hubs
 				req.IsSuccess = false;
 				req.Error = "API key not valid";
 				await Clients.Caller.SendAsync("UserInfo", req);
+				return;
 			}
 
 			req.Caller = Context.ConnectionId;
-			Listener client = _listeners.GetByDomain(req.Domain);
-			await Clients.Client(client.ClientId).SendAsync("GetUserInfo", req);
+			Listener ADservice = _listeners.GetByDomain(req.Domain);
+			if (ADservice is null)
+			{
+				req.IsSuccess = false;
+				req.Error = "ADservice not fount";
+				await Clients.Caller.SendAsync("UserInfo", req);
+				return;
+			}
+
+			await Clients.Client(ADservice.ClientId).SendAsync("GetUserInfo", req);
 		}
 
 		public async Task UserInfo(ADAuthRequest response)
 		{
+			Listener ADservice = _listeners.GetByConn(Context.ConnectionId);
+			if (ADservice is null)
+				return;
+
 			if (response.IsSuccess)
 				Console.WriteLine(response.Answer.Username);
 			else
