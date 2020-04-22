@@ -55,7 +55,7 @@ namespace achieve_edge.Hubs
 				return;
 
 			if (response.IsSuccess)
-				Console.WriteLine(response.Answer.Username);
+				Console.WriteLine(response.Result.Username);
 			else
 				Console.WriteLine(response.Error);
 			await Clients.Client(response.Caller).SendAsync("UserInfo", response);
