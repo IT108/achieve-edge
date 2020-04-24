@@ -40,7 +40,7 @@ namespace achieve_edge.Hubs
 			if (ADservice is null)
 			{
 				req.IsSuccess = false;
-				req.Error = "ADservice not fount";
+				req.Error = "ADservice not found";
 				await Clients.Caller.SendAsync("UserInfo", req);
 				return;
 			}
