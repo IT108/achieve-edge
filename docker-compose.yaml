@@ -12,7 +12,7 @@ services:
       - "${EDGE_PORT_PROD}:80"
     restart: always
     networks:
-      - achieve_api_prod
+      - achieve_edge_prod
 
 networks:
-  achieve_api_prod:
+  achieve_api_edge:
