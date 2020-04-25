@@ -1,4 +1,6 @@
 ﻿using achieve_edge.Models;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -18,14 +20,17 @@ namespace achieve_edge.Common
 
 			string requestString = $"{Configuration["API_ADDRESS"]}/domain/keys?api_key={Configuration["EDGE_API_TOKEN"]}";
 
-			WebRequest request = WebRequest.Create(requestString);
+			HttpWebRequest request = (HttpWebRequest) WebRequest.Create(requestString);
 			request.Method = "GET";
 
 
 			try
 			{
-				WebResponse response;
-				response = request.GetResponse();
+				HttpWebResponse response;
+				response = (HttpWebResponse) request.GetResponse();
+
+				if (response.StatusCode != HttpStatusCode.OK)
+					throw new ArgumentException("API connection error. Status code: " + response.StatusCode);
 
 				Stream dataStream;
 
@@ -45,7 +50,7 @@ namespace achieve_edge.Common
 			catch (Exception ex)
 			{
 				Console.WriteLine(requestString);
-				Console.WriteLine("Api is inaccessible. " + ex.Message);
+				Console.WriteLine("Api connection error. " + ex.Message);
 				Console.WriteLine(request);
 				Environment.Exit(1);
 			}
