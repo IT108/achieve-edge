@@ -22,7 +22,7 @@ jobs:
         tags: "latest,${{ github.SHA }}"
 
   deploy:
-    runs-on: whale
+    runs-on: edge-whale
     needs: build
     steps:
     - uses: actions/checkout@master
