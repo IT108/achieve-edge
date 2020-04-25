@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  achieve_api:
+  achieve_edge:
     image: docker.pkg.github.com/it108/achieve-edge/achieve-edge:${GITHUB_SHA}
     container_name: achieve_edge
     environment:
@@ -15,4 +15,4 @@ services:
       - achieve_edge_prod
 
 networks:
-  achieve_api_edge:
+  achieve_edge_prod:
