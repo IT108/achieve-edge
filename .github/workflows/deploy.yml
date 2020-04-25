@@ -15,7 +15,7 @@ jobs:
     - name: Build package
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: ${{ github.REPOSITORY }}/achieve-edge
+        name: it108/achieve-edge/achieve-edge
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_TOKEN }}
         registry: docker.pkg.github.com
