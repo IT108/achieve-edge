@@ -16,7 +16,9 @@ namespace achieve_edge.Common
 		{
 			List<Domain> domains = new List<Domain>();
 
-			WebRequest request = WebRequest.Create($"{Configuration["API_ADDRESS"]}domain/keys?api_key={Configuration["EDGE_API_TOKEN"]}");
+			string requestString = $"{Configuration["API_ADDRESS"]}/domain/keys?api_key={Configuration["EDGE_API_TOKEN"]}";
+
+			WebRequest request = WebRequest.Create(requestString);
 			request.Method = "GET";
 
 
@@ -42,7 +44,9 @@ namespace achieve_edge.Common
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(requestString);
 				Console.WriteLine("Api is inaccessible. " + ex.Message);
+				Console.WriteLine(request);
 				Environment.Exit(1);
 			}
 
