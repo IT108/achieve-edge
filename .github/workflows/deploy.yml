@@ -34,6 +34,6 @@ jobs:
         API_TOKEN: ${{ secrets.API_TOKEN }}
         API_ADDRESS: ${{ secrets.API_ADDRESS }}
         DB_CONN_STRING: ${{ secrets.DB_CONN_STRING }}
-        EDGE_PORT_PROD: ${{ secrets.API_PORT_PROD }}
+        EDGE_PORT_PROD: ${{ secrets.EDGE_PORT_PROD }}
       run: |
         docker-compose up -d
