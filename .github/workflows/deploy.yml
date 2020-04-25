@@ -1,0 +1,39 @@
+name: Docker build and deploy
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: ${{ github.REPOSITORY }}/achieve-edge
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_TOKEN }}
+        registry: docker.pkg.github.com
+        tags: "latest,${{ github.SHA }}"
+
+  deploy:
+    runs-on: whale
+    needs: build
+    steps:
+    - uses: actions/checkout@master
+    - name: Login to packages
+      run: |
+        echo  ${{ secrets.REGISTRY_TOKEN }} |  docker login docker.pkg.github.com -u ${{ github.ACTOR }} --password-stdin
+    - name: deploy
+      env:
+        API_TOKEN: ${{ secrets.API_TOKEN }}
+        API_ADDRESS: ${{ secrets.API_ADDRESS }}
+        DB_CONN_STRING: ${{ secrets.DB_CONN_STRING }}
+        EDGE_PORT_PROD: ${{ secrets.API_PORT_PROD }}
+      run: |
+        docker-compose up -d
