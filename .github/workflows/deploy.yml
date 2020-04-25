@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Publish to Registry
+    - name: build package
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: ${{ github.REPOSITORY }}/achieve-edge
