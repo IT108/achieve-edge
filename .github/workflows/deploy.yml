@@ -1,4 +1,4 @@
-name: Docker build and deploy
+name: Dockerize and deploy
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         tags: "latest,${{ github.SHA }}"
 
   deploy:
-    runs-on: edge-whale
+    runs-on: whale
     needs: build
     steps:
     - uses: actions/checkout@master
