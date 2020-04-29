@@ -1,4 +1,4 @@
-name: Dockerize and deploy production
+name: Production pipeline
 
 on:
   push:
